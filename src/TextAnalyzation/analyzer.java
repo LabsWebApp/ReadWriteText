@@ -63,7 +63,7 @@ public class analyzer{
         if(clear) singleton = true;
         read();
 
-        String result = "В файле: " + inFile.getName() + "найденно\n";
+        String result = "В файле: " + inFile.getName() + " найденно\n";
 
         if(linesCounter<1){
             return result + "\tне найденно ни одного слова, символа или строки";
