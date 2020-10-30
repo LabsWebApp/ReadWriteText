@@ -1,4 +1,6 @@
 package TextAnalyzation;
+import Progress.prgEntity;
+
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,16 +15,27 @@ import java.util.TreeMap;
 // Все файловые диалоги JAVA с мопеда
 // Добавить метод исправления(замена) символа с записью в файл
 public class analyzer{
-    private final String pattern = "[ \t\n\r\f\u000B\u001C\u001D\u001E\u001F]";
+    private final String pattern = "[" +
+            (char)12 + (char)13 + (char)14 + (char)32 + (char)160 +
+            "\t\n\r\f'\u000B'\u001C\u001D\u001E\u001F]";
 
     private File inFile;
     private boolean singleton;
+    public prgEntity prg;
 
     public analyzer(String path) throws FileNotFoundException {
         inFile = new File(path);
         if(!inFile.exists())
             throw new FileNotFoundException();
+        allCharsCounter = inFile.length();
+        prg = new prgEntity(allCharsCounter);
         singleton = false;
+    }
+
+    private long allCharsCounter;
+    public long getAllCharsCounter()
+    {
+        return allCharsCounter;
     }
 
     private long charsCounter;
@@ -50,24 +63,25 @@ public class analyzer{
         if(clear) singleton = true;
         read();
 
-        String result = "В файле: " + inFile.getName() + "\n";
+        String result = "В файле: " + inFile.getName() + "найденно\n";
 
         if(linesCounter<1){
             return result + "\tне найденно ни одного слова, символа или строки";
         }
-        result += "\tнайденно строк: " + linesCounter + "\n";
+        result += "\tстрок: " + linesCounter + "\n";
 
         if(wordsCounter < 1 && charsCounter < 1){
             return result + "\tне найденно ни одного слова или символа";
         }
 
         if(wordsCounter > 0){
-            result += "\tнайденно слов: " + wordsCounter + "\n";
+            result += "\tслов: " + wordsCounter + "\n";
         }
 
         if(charsCounter>0) {
-            result += "\tнайденно уникальных символов: " + dictionary.size() + "\n";
-            result += "\tнайденно всего символов: " + charsCounter + "\n";
+            result += "\tуникальных символов: " + dictionary.size() + "\n";
+            result += "\tне пустых символов: " + charsCounter + "\n";
+            result += "\tвсего символов: " + allCharsCounter + "\n";
         }
         else {
             small = true;
@@ -112,8 +126,10 @@ public class analyzer{
             wordsCounter = 0;
             dictionary = new HashMap<>();
 
+           // System.out.println(prg.getValue());
+
             //чтение построчно
-            String s;
+            String s, rep = "";
             while((s=br.readLine())!=null){
                 linesCounter++;
 
@@ -124,18 +140,24 @@ public class analyzer{
                 }
 
                 for(Character ch : s.toCharArray()){
-                    //if(ch.toString().length() < 1 || Character.isWhitespace(ch)) continue;
-
                     charsCounter++;
                     dictionary.put(ch,
                             dictionary.containsKey(ch) ? dictionary.get(ch) + 1 : 1);
                 }
-                // System.out.println(s);
+                prg.addValue((long)s.length() + 1);
+                String res = prg.toString();
+                if(!rep.equals(res)) {
+                    System.out.println(prg.getValue() + "\t\t\t" + res);
+                    //System.out.println("\t" + res);
+                    rep = res;
+                }
             }
             singleton = false;
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

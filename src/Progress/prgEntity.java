@@ -8,6 +8,7 @@ public class prgEntity {
     public prgEntity(long minimum, long maximum){
         value = this.minimum = minimum;
         this.maximum = maximum;
+        percent = (maximum - minimum)/(double)100;
     }
 
     public prgEntity(long maximum){
@@ -18,7 +19,7 @@ public class prgEntity {
         this(0, 0);
     }
 
-    private final double percent = ((double)maximum - minimum)/100;
+    private double percent;
 
     private void validation(long value) throws Exception {
         if(value<minimum){
@@ -43,8 +44,22 @@ public class prgEntity {
         value = res;
     }
 
+    public long getValue(){return value;}
+
     public double getCurrentPercent()
     {
         return (value - minimum)/percent;
+    }
+
+    @Override
+    public String toString() {
+        if(value==minimum)
+            return "0";
+        double res = getCurrentPercent();
+        if(res<1)
+            return "1";
+        if(res>99 && res<100)
+            return "99";
+        return String.valueOf((int)Math.round(res));
     }
 }
