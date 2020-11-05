@@ -15,12 +15,14 @@ public class tree<T> {
 
     private HashMap<T, tree<T>> locate = new HashMap<T, tree<T>>();
 
+    public tree(){}
+
     public tree(T head) {
         this.head = head;
         locate.put(head, this);
     }
 
-    public void addLeaf(T root, T leaf) {
+    protected void addLeaf(T root, T leaf) {
         if (locate.containsKey(root)) {
             locate.get(root).addLeaf(leaf);
         } else {
@@ -28,7 +30,7 @@ public class tree<T> {
         }
     }
 
-    public tree<T> addLeaf(T leaf) {
+    protected tree<T> addLeaf(T leaf) {
         tree<T> t = new tree<T>(leaf);
         leafs.add(t);
         t.parent = this;
@@ -37,7 +39,7 @@ public class tree<T> {
         return t;
     }
 
-    public tree<T> setAsParent(T parentRoot) {
+    protected tree<T> setAsParent(T parentRoot) {
         tree<T> t = new tree<T>(parentRoot);
         t.leafs.add(this);
         this.parent = t;
@@ -85,12 +87,12 @@ public class tree<T> {
 
     @Override
     public String toString() {
-        return printTree(0);
+        return printTree(0, head);
     }
 
-    private static final int indent = 1;
+    private static final int indent = 4;
 
-    private String printTree(int increment) {
+    protected String printTree(int increment, Object head) {
         String s = "";
         String inc = "";
         for (int i = 0; i < increment; ++i) {
@@ -98,7 +100,7 @@ public class tree<T> {
         }
         s = inc + head;
         for (tree<T> child : leafs) {
-            s += "\n" + child.printTree(increment + indent);
+            s += "\n" + child.printTree(increment + indent, child.head);
         }
         return s;
     }

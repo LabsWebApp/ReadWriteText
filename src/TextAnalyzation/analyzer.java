@@ -1,5 +1,6 @@
 package TextAnalyzation;
 import Progress.prgEntity;
+import Progress.prgTree;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -21,14 +22,14 @@ public class analyzer{
 
     private File inFile;
     private boolean singleton;
-    public prgEntity prg;
+    public prgTree prg;
 
     public analyzer(String path) throws FileNotFoundException {
         inFile = new File(path);
         if(!inFile.exists())
             throw new FileNotFoundException();
         allCharsCounter = inFile.length();
-        prg = new prgEntity(allCharsCounter);
+        prg = new prgTree(allCharsCounter);
         singleton = false;
     }
 
@@ -126,8 +127,6 @@ public class analyzer{
             wordsCounter = 0;
             dictionary = new HashMap<>();
 
-           // System.out.println(prg.getValue());
-
             //чтение построчно
             String s, rep = "";
             while((s=br.readLine())!=null){
@@ -138,7 +137,6 @@ public class analyzer{
                         wordsCounter++;
                     }
                 }
-
                 for(Character ch : s.toCharArray()){
                     charsCounter++;
                     dictionary.put(ch,
@@ -147,12 +145,14 @@ public class analyzer{
                 prg.addValue((long)s.length() + 1);
                 String res = prg.toString();
                 if(!rep.equals(res)) {
-                    System.out.println(prg.getValue() + "\t\t\t" + res);
+                    System.out.println(res + "%\t" + prg.getStopwatches());
                     //System.out.println("\t" + res);
                     rep = res;
                 }
             }
             singleton = false;
+            prg.setValue();
+            System.out.println(prg + "%\t" + prg.getStopwatches());
         }
         catch(IOException ex){
             System.out.println(ex.getMessage());
