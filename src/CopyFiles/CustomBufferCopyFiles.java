@@ -6,6 +6,9 @@ import java.io.*;
 
 public class CustomBufferCopyFiles {
     public static void copy(String input, String output, int bufferLenght) throws Exception {
+        if(bufferLenght<=0){
+            throw new Exception("Буфер должен быть больше 0.");
+        }
         prgTree prg = new prgTree();
         try(FileInputStream fin=new FileInputStream(input);
             FileOutputStream fos=new FileOutputStream(output, false))
@@ -35,7 +38,7 @@ public class CustomBufferCopyFiles {
                 //System.out.println(pos);
                 // записываем из буфера в файл
                 fos.write(buffer, 0, bufferLenght);
-                prg.addValue(bufferLenght);
+                //prg.addValue(bufferLenght);
                 if(flag) current += bufferLenght;
             }
         } catch (IOException e) {

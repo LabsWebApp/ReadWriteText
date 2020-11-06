@@ -63,7 +63,7 @@ public class prgEntity {
 
     @Override
     public String toString() {
-        if(value==minimum)
+        if(value==minimum && stopwatch < 0)
             return "0";
         double res = getCurrentPercent();
         if(res<1)
@@ -85,11 +85,11 @@ public class prgEntity {
         if(nano < 1000)
             return nano + "нано";
         if(nano < 1000 * 1000)
-            return (double)nano/1000 + "микро";
+            return (double)nano/1000 + " микро";
         if(nano < 1000 * 1000 * 1000)
-            return (double)nano/1000000 + "милли";
+            return (double)nano/1000000 + " милли";
        // if(nano < 1000 * 1000 * 1000)
-            return (double)nano/1000000000 + "сек";
+            return (double)nano/1000000000 + " сек";
     }
 
     public static void progressing(prgEntity prg) throws InterruptedException {
