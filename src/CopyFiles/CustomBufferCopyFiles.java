@@ -5,6 +5,7 @@ import Progress.prgTree;
 import java.io.*;
 
 public class CustomBufferCopyFiles {
+<<<<<<< HEAD
     public static void copy(String input, String output, int bufferLenght) throws Exception {
         prgTree prg = new prgTree();
         try(FileInputStream fin=new FileInputStream(input);
@@ -46,4 +47,7 @@ public class CustomBufferCopyFiles {
             System.out.println(prg.getCurrentPercent() + "%\t" + prg.getStopwatches());
         }
     }
+=======
+
+>>>>>>> a1885e668460939339943daa9b090fb3c868a965
 }
