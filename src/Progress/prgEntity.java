@@ -9,6 +9,10 @@ public class prgEntity {
     private long minimum;
     private long stopwatch = -1,  stopwatchFinish = -1 ;
 
+    public void startStopwatch(){
+        stopwatch = System.nanoTime();
+    }
+
     public prgEntity(long minimum, long maximum){
         value = this.minimum = minimum;
         this.maximum = maximum;
@@ -38,21 +42,19 @@ public class prgEntity {
     }
 
     public void setValue(long value) throws Exception {
-        if(value==minimum) stopwatch = System.nanoTime();
         validation(value);
         this.value = value;
-        if(value==maximum) stopwatchFinish = System.nanoTime() - stopwatch;
+        if(value==maximum && stopwatch >= 0) stopwatchFinish = System.nanoTime() - stopwatch;
     }
     public void setValue() throws Exception {
         setValue(maximum);
     }
 
     public void addValue(long add) throws Exception {
-        if(value==minimum) stopwatch = System.nanoTime();
         long res = value + add;
         validation(res);
         value = res;
-        if(value==maximum) stopwatchFinish = System.nanoTime() - stopwatch;
+        if(value==maximum && stopwatch >= 0) stopwatchFinish = System.nanoTime() - stopwatch;
     }
 
     public double getCurrentPercent(){
@@ -75,8 +77,19 @@ public class prgEntity {
         if(stopwatch<0)
             return "Not started";
         if(stopwatchFinish<0)
-            return String.valueOf(System.nanoTime() - stopwatch);
-        return String.valueOf(stopwatchFinish);
+            return nanoToTime(System.nanoTime() - stopwatch);
+        return nanoToTime(stopwatchFinish);
+    }
+
+    public static String nanoToTime(long nano){
+        if(nano < 1000)
+            return nano + "нано";
+        if(nano < 1000 * 1000)
+            return (double)nano/1000 + "микро";
+        if(nano < 1000 * 1000 * 1000)
+            return (double)nano/1000000 + "милли";
+       // if(nano < 1000 * 1000 * 1000)
+            return (double)nano/1000000000 + "сек";
     }
 
     public static void progressing(prgEntity prg) throws InterruptedException {

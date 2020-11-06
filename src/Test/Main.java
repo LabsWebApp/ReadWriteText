@@ -13,7 +13,7 @@ public class Main {
 
        // System.out.println(anal.logger(true));
         String inputFile = "C:/Users/vovik/OneDrive/Рабочий стол/Bibliya3.txt",
-                outputFile = "C:/Users/vovik/OneDrive/Рабочий стол/file_copy.txt";
-        CustomBufferCopyFiles.copy(inputFile, outputFile, 1);
+                outputFile = "G:/file_copy.txt";
+        CustomBufferCopyFiles.copy(inputFile, outputFile, 1024);
     }
 }

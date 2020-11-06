@@ -17,6 +17,9 @@ public class prgTree extends tree<prgEntity> {
             this.addLeaf(new prgEntity(maximum));
         }
     }
+    public void startStopwatch(){
+        getHead().startStopwatch();
+    }
 
     public void addValue(long add) throws Exception{
         getHead().addValue(add);

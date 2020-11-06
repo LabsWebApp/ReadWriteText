@@ -5,7 +5,6 @@ import Progress.prgTree;
 import java.io.*;
 
 public class CustomBufferCopyFiles {
-<<<<<<< HEAD
     public static void copy(String input, String output, int bufferLenght) throws Exception {
         prgTree prg = new prgTree();
         try(FileInputStream fin=new FileInputStream(input);
@@ -13,6 +12,7 @@ public class CustomBufferCopyFiles {
         {
             int _aviable = fin.available();
             prg = new prgTree(_aviable);
+            prg.startStopwatch();
             int current = 0;
             int end = 0;
             if(bufferLenght >= _aviable) {
@@ -22,6 +22,7 @@ public class CustomBufferCopyFiles {
                 end = _aviable % bufferLenght;
             }
             boolean flag = true;
+            byte[] buffer = new byte[bufferLenght];
             while (flag) {
                 if(current > _aviable - bufferLenght)
                 {
@@ -29,7 +30,6 @@ public class CustomBufferCopyFiles {
                     bufferLenght = end;
                     flag = false;
                 }
-                byte[] buffer = new byte[bufferLenght];
                 // считываем буфер
                 fin.read(buffer, 0, bufferLenght);
                 //System.out.println(pos);
@@ -47,7 +47,4 @@ public class CustomBufferCopyFiles {
             System.out.println(prg.getCurrentPercent() + "%\t" + prg.getStopwatches());
         }
     }
-=======
-
->>>>>>> a1885e668460939339943daa9b090fb3c868a965
 }
